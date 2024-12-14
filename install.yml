@@ -1,0 +1,39 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: Installing the Cinder
+      apt: 
+        name:
+          - cinder-volume
+          - python3-mysqldb
+        state: latest
+        update_cache: yes
+
+    - name: Installing the Apache2
+      apt:
+        name: apache2
+        state: latest
+        update_cache: yes
+
+    - name: Installing the Horizon (openstack-dashboard)
+      apt:
+        name:
+          - openstack-dashboard
+        state: latest
+        update_cache: yes
+
+    - name: Installing the Neutron
+      apt:
+        name:
+          - neutron-server
+          - neutron-l3-agent
+          - neutron-plugin-ml2
+          - neutron-dhcp-agent
+          - neutron-linuxbridge-agent
+          - python3-neutronclient
+        state: latest
+        update_cache: yes
+
+    - name: Reconfiguring OpenStack Dashboard package
+      command: dpkg --configure -a
+      ignore_errors: yes
